@@ -21,10 +21,11 @@ interface PageInfo {
   };
 }
 
-interface Mblog {
+export interface Mblog {
   id: string;
   bid: string;
   created_at: string;
+  text: string;
   isLongText: boolean;
   /** pageInfo 和 pic 没有共存 */
   pageInfo?: PageInfo;
@@ -33,9 +34,9 @@ interface Mblog {
   retweeted_status?: unknown;
 }
 
-interface Card9 {
+export interface Card9 {
   card_type: CardType.Card9;
-  mblog: Mblog[];
+  mblog: Mblog;
 }
 
 export type WeiboResData = ResData<CardlistInfo, Card9[]>;

@@ -16,3 +16,24 @@ export function exit(msg: string): never {
   console.log(msg);
   Deno.exit();
 }
+
+/** 追加模式写入文件 */
+export async function writeToFile(
+  path: string,
+  data: string | ArrayBuffer,
+  arrBuffer = false
+) {
+  await Deno.writeFile(
+    path,
+    arrBuffer
+      ? new Uint8Array(data as ArrayBuffer)
+      : new TextEncoder().encode(data as string),
+    { append: true }
+  );
+}
+
+/** 创建文件夹 */
+export async function mkdir(path: string) {
+  await Deno.mkdir(path, { recursive: true });
+  return path;
+}

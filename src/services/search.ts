@@ -20,9 +20,6 @@ function getContainId(data: SearchResData, name: string) {
   exit("未找到用户");
 }
 
-/** 根据用户名获取 containerId */
-// async function getContainId(username: string) {}
-
 /** 搜索
  * @return containerId
  */

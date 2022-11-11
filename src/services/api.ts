@@ -16,3 +16,10 @@ export async function searchByNameApi(name: string, page = 1) {
 export async function getPagingWeiboApi(containerId: string, sinceId = "") {
   return await http.get<WeiboRes>(genPagingUrl(containerId, sinceId));
 }
+
+/**
+ * 请求图片
+ */
+export async function getImageApi(url: string) {
+  return await http.get<ArrayBuffer>(url, true);
+}

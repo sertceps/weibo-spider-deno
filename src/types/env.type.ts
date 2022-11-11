@@ -5,6 +5,10 @@ interface Env {
   API_URL: string;
   TEXT_URL: string;
   LTEXT_URL: string;
+  FILE_DIR: string;
+  IMAGE_DIR: string;
+  TEXT_DIR: string;
+  TEXT_TYPE: ".md" | ".txt";
 }
 
 export interface EnvExt extends DotenvConfig, Env {}
