@@ -1,10 +1,10 @@
 /**
  * 获取微博分页数据
  */
-import { Card9, Mblog } from "../types/weibo.type.ts";
+import { Card9, Mblog, PicCard, PicCards } from "../types/weibo.type.ts";
 import { getImageApi, getPagingWeiboApi } from "./api.ts";
 import { genTextType } from "./config.ts";
-import { mkdir, writeToFile } from "./utils.ts";
+import { mkdir, writeTextFile, writeFile } from "./utils.ts";
 
 /** 获取指定页码微博数据 
  *@param containerId
@@ -40,7 +40,7 @@ function parseText(mblog: Mblog) {
 export async function saveText(path: string, cards: Card9[]) {
   // TODO 处理一下文件已存在的逻辑
   for (const card of cards) {
-    await writeToFile(
+    await writeTextFile(
       `${path}/${cards[0].mblog.id}${genTextType()}`,
       parseText(card.mblog)
     );
@@ -48,16 +48,25 @@ export async function saveText(path: string, cards: Card9[]) {
   }
 }
 
+/** 返回文件名*/
+function extractImageName(url: string) {
+  return url.match(/large\/(.*\.jpg)/)?.[1] ?? Date.now().toString() + ".jpg";
+}
+
 /** 请求并保存文件 */
-async function downloadImage(path: string, url: string) {
-  await writeToFile(path, await getImageApi(url));
-  console.log(path);
+async function downloadImage(path: string, picCard: PicCard) {
+  for (const url of picCard.urls) {
+    writeFile(`${path}/${extractImageName(url)}`, await getImageApi(url));
+    console.log(url);
+  }
 }
 
 /** 下载一个 card 的文件 */
-async function save(path: string, item: { id: string; urls: string[] }) {
-  for (const url of item.urls) {
-    await downloadImage(`${path}/${item.id}.jpg`, url);
+async function save(path: string, picCards: PicCards) {
+  const dir = `${path}/${picCards[0].id}`;
+  await mkdir(dir);
+  for (const card of picCards) {
+    await downloadImage(dir, card);
   }
 }
 
@@ -72,10 +81,5 @@ export async function saveImage(path: string, cards: Card9[]) {
     .filter((item) => item.urls!.length > 0);
 
   if (picCards.length === 0) return;
-
-  const dir = `${path}/${picCards[0].id}`;
-  await mkdir(dir);
-  for (const item of picCards) {
-    await save(dir, item as { id: string; urls: string[] });
-  }
+  await save(path, picCards as PicCards);
 }

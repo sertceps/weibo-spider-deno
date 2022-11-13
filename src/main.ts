@@ -25,7 +25,7 @@ async function bootstrap() {
   let sinceId = "";
   for (let i = 0; i < total; i++) {
     const { cardlistInfo, cards } = await getWeibo(containerId, sinceId);
-    // await saveText(textDir, cards);
+    saveText(textDir, cards);
     await saveImage(imageDir, cards);
     sinceId = cardlistInfo.since_id.toString();
   }

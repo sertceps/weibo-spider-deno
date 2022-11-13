@@ -39,5 +39,12 @@ export interface Card9 {
   mblog: Mblog;
 }
 
+export interface PicCard {
+  id: string;
+  urls: string[];
+}
+
+export type PicCards = PicCard[];
+export type WeiboBinRes = ReadableStreamDefaultReader<Uint8Array>;
 export type WeiboResData = ResData<CardlistInfo, Card9[]>;
 export type WeiboRes = Success<WeiboResData>;

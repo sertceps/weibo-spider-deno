@@ -1,5 +1,5 @@
 import { SearchRes } from "../types/search.type.ts";
-import { WeiboRes } from "../types/weibo.type.ts";
+import { WeiboBinRes, WeiboRes } from "../types/weibo.type.ts";
 import { genPagingUrl, genSearchUrl } from "./config.ts";
 import http from "./http.ts";
 
@@ -21,5 +21,5 @@ export async function getPagingWeiboApi(containerId: string, sinceId = "") {
  * 请求图片
  */
 export async function getImageApi(url: string) {
-  return await http.get<ArrayBuffer>(url, true);
+  return await http.get<WeiboBinRes>(url, true);
 }

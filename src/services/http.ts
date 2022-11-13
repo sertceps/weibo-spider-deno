@@ -10,7 +10,9 @@ class Http {
   }
 
   async get<T>(url: string, bin = false): Promise<T> {
-    return bin ? (await fetch(url)).arrayBuffer() : (await fetch(url)).json();
+    return bin
+      ? (await fetch(url)).body?.getReader()
+      : (await fetch(url)).json();
   }
 }
 
